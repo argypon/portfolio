@@ -1,5 +1,4 @@
-import { useRef } from 'react'
-import { motion } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 
 const PROJECTS = [
   {
@@ -28,9 +27,16 @@ const PROJECTS = [
   },
 ]
 
-const fadeUp = {
+const headerVariants: Variants = {
   hidden:  { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.25, 0.1, 0.25, 1] } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+      ease: 'easeOut',
+    },
+  },
 }
 
 export default function Works() {
@@ -40,7 +46,9 @@ export default function Works() {
 
         {/* Header */}
         <motion.div
-          variants={fadeUp} initial="hidden" whileInView="visible"
+          variants={headerVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
           className="flex justify-between items-end mb-10 gap-6"
         >
@@ -56,8 +64,10 @@ export default function Works() {
               A selection of projects I've worked on, from concept to launch.
             </p>
           </div>
-          <button className="hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm relative group"
-                  style={{ color: 'hsl(var(--text))', border: '1px solid hsl(var(--stroke))' }}>
+          <button
+            className="hidden md:inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm relative group"
+            style={{ color: 'hsl(var(--text))', border: '1px solid hsl(var(--stroke))' }}
+          >
             <span className="absolute inset-[-2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
             View all work →
           </button>
@@ -68,9 +78,14 @@ export default function Works() {
           {PROJECTS.map((p, i) => (
             <motion.div
               key={p.slug}
-              variants={fadeUp} initial="hidden" whileInView="visible"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ delay: i * 0.1 }}
+              transition={{
+                duration: 1,
+                delay: i * 0.1,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
               className={`md:col-span-${p.span} rounded-3xl overflow-hidden border cursor-pointer group relative`}
               style={{ borderColor: 'hsl(var(--stroke))', background: 'hsl(var(--surface))' }}
             >
@@ -81,13 +96,22 @@ export default function Works() {
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Halftone */}
-                <div className="absolute inset-0 opacity-20 mix-blend-multiply pointer-events-none"
-                     style={{ backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)', backgroundSize: '4px 4px' }} />
+                <div
+                  className="absolute inset-0 opacity-20 mix-blend-multiply pointer-events-none"
+                  style={{
+                    backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
+                    backgroundSize: '4px 4px',
+                  }}
+                />
                 {/* Hover overlay */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 backdrop-blur-lg flex items-center justify-center"
-                     style={{ background: 'rgba(10,10,10,0.7)' }}>
-                  <div className="relative inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium"
-                       style={{ background: 'rgba(255,255,255,0.9)', color: '#111' }}>
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400 backdrop-blur-lg flex items-center justify-center"
+                  style={{ background: 'rgba(10,10,10,0.7)' }}
+                >
+                  <div
+                    className="relative inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium"
+                    style={{ background: 'rgba(255,255,255,0.9)', color: '#111' }}
+                  >
                     <span className="absolute inset-[-2px] rounded-full accent-gradient -z-10" />
                     View — <em className="font-display italic">{p.title}</em>
                   </div>
